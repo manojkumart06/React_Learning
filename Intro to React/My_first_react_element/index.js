@@ -70,3 +70,6 @@ const Arrowapp = () => (
 )
 
 ReactDOM.createRoot(document.getElementById('component')).render(<App/>);
+
+
+

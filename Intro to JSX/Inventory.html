@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <title>Inventory</title>
+
+    <style>
+      table {
+        width: 50%;
+        border-collapse: collapse;
+      }
+      
+      th, td {
+        padding: 5px;
+        text-align: center;
+        border: 1px solid #ddd;
+      }
+
+      .image-cell {
+        width: 100px; /* Adjust the width of the cell as needed */
+        height: 100px; /* Adjust the height of the cell as needed */
+      }
+
+      .image-cell img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const App = () => {
+        const itemsSold = [
+          { id: 1, name: "iPhone 14", price: 1200, qty: 22,src : "https://www.cnet.com/a/img/resize/2a4908544fc722ad20b47e22204894a5c09887d7/hub/2022/12/16/eb02a6aa-f331-4fbe-9e5f-35efd2198f8d/p1002240-1.jpg?auto=webp&fit=crop&height=675&width=1200" },
+          { id: 2, name: "iPad Pro", price: 800, qty: 18,  src : "https://images.immediate.co.uk/production/volatile/sites/3/2021/06/iPad-Pro-with-Apple-Pencil-on-top-bd42e70.jpg?quality=90&webp=true&resize=1200,800"},
+          { id: 3, name: "Macbook Air", price: 1500, qty: 7, src : "https://bl-i.thgim.com/public/incoming/fk5hrs/article67097604.ece/alternates/FREE_1200/MacBookAir%2015inch_5.JPG"},
+          { id: 4, name: "Samsung S23", price: 1100, qty: 16, src : "https://fdn.gsmarena.com/imgroot/reviews/23/samsung-galaxy-s23-fe/-728x314/gsmarena_001.jpg"},
+          { id: 5, name: "Dell Inspiron 5590", price: 1200, qty: 5, src : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiyXdAaLD_1p1DJ_VRRoNSQRNVzVjIdCT8Ug&usqp=CAU" }
+        ];
+
+        return (
+          <>
+            <h1>Record of sold items</h1>
+            <table border="1px">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>Selling price</th>
+                  <th>Quantity</th>
+                  <th>Image</th>
+                </tr>
+              </thead>
+              <tbody>
+                {itemsSold.map((item,i)=> (
+                  <tr key={i}>
+                    <td>{item.id}</td>
+                    <td>{item.name}</td>
+                    <td>{item.price}</td>
+                    <td>{item.qty}</td>
+                    <td className="image-cell"><img src={item.src} alt={item.name} /></td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td>Total Revenue</td>
+                  <td colSpan={4}>${itemsSold.reduce((value, item) => value + item.price, 0)}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </>
+        )
+      };
+
+      const rootElement = ReactDOM.createRoot(document.getElementById("root"));
+      rootElement.render(<App />);
+    </script>
+
+  </body>
+</html>

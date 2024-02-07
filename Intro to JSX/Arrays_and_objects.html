@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <title>Arrays and Objects</title>
+
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const App = () => {
+        let arr = [1,2,3,4,5,6,7,8,9];
+        let cars = ['BMW','Audi','Benz','Rollsroyce','Tata'];
+        let obj = {
+            name : 'Manoj',
+            Age : 24
+        }
+        return (
+          <>
+            <h1>Rendering Arrays and objects in React </h1>
+            {arr.filter((number) => number % 3 == 0)}
+            <ul>
+              {cars.map((num,i)=> <li key = {i}>{num}</li>)}
+            </ul>
+            <h2>obj.name is {obj.name}</h2>
+          </>
+        );
+      };
+
+      const rootElement = ReactDOM.createRoot(document.getElementById("root"));
+      rootElement.render(<App />);
+    </script>
+
+  </body>
+</html>
