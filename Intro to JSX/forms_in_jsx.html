@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <title>Forms in JSX</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      let inputRef = React.createRef();
+      const marksRef = React.createRef();
+      const studentname = [];
+      const studentmarks = [];
+      
+      function handleSubmit(event) {
+        event.preventDefault();
+
+        studentname.push(
+          <td>{`${inputRef.current.value}`}</td>
+        );
+        studentmarks.push(
+          <td>{`${marksRef.current.value}`}</td>
+        );
+
+        inputRef.current.value = "";
+        marksRef.current.value = "";
+        rootElement.render(<App/>);
+      }
+      
+      const Form = () => (
+        <>
+          <h1> Students' form </h1>
+          <form onSubmit={handleSubmit}>
+            <input ref={inputRef} placeholder="Name" />
+            <input type="number" ref={marksRef} placeholder="Marks" />
+            <button>Submit</button>
+          </form>
+        </>
+      );
+
+      const Result = () => (
+        <>
+          <p></p>
+          <table border='1px'>
+            <tr>
+              <th>Student's name</th>
+              <th>Marks</th>
+            </tr>
+            {studentname.map((name, i) => (
+              <tr key={i}>
+                {name}
+                {studentmarks[i]}
+              </tr>
+            ))}
+          </table>
+        </>
+      );
+
+      const App = () => (
+        <>
+          <Form />
+          <Result />
+        </>
+      );
+
+      const rootElement = ReactDOM.createRoot(document.getElementById("root"));
+      rootElement.render(<App />);
+    </script>
+  </body>
+</html>

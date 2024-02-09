@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>CMT App</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      let customers = [];
+      const capacity = 25;
+      let seatsLeft = 25;
+      const countRef = React.createRef();
+      const nameRef = React.createRef();
+      const numberRef = React.createRef();
+      
+
+      function clearInputs(){
+        countRef.current.value = "";
+        nameRef.current.value = "";
+        numberRef.current.value = "";
+      }
+      // Create form submit handler here
+      function handleSubmit(event) {
+        event.preventDefault();
+        let date = new Date(); //get current date
+        if(countRef.current.value){
+            seatsLeft = seatsLeft - countRef.current.value;
+        }
+
+        customers.unshift(
+            {
+            count : countRef.current.value,
+            name : nameRef.current.value,
+            number : numberRef.current.value,
+            date : date.toLocaleString(),
+            delete : "Delete"
+            }
+        );
+
+        clearInputs();
+        rootElement.render(<App/>);
+      }
+
+      const App = () => (
+        <div className="App" style={{ textAlign: "center" }}>
+          <div>
+            <h2>Total Capacity:{capacity} </h2>
+            <h2>Seats Left: {seatsLeft}</h2>
+          </div>
+
+          {/* Create a form here for the input count, name and phone number with a submit button*/}
+          <div>
+            <form onSubmit={handleSubmit} >
+                <input ref ={countRef} type="number" placeholder = "Guests Count" /><br/>
+                <input ref ={nameRef} placeholder = "Primary Guest Name" /><br/>
+                <input ref ={numberRef} placeholder = "Phone Number"/><br/><br/>
+                <button type="submit">Add Entry</button>
+            </form>
+         </div><br/>
+        
+
+          <table border="1px" style={{ margin: "auto" }}>
+            <thead>
+              <tr>
+                <th>Count</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Check In</th>
+                <th>Remove Entry</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Complete table to show records of customers */  
+                customers.map((iteration,index) => (
+                    <tr key = {index}>
+                        <td>{iteration.count}</td>
+                        <td>{iteration.name}</td>
+                        <td>{iteration.number}</td>
+                        <td>{iteration.date}</td>
+                        <td>{iteration.delete}</td>            
+                    </tr>
+                ))}
+            </tbody>
+            </table>
+        </div>
+      );
+
+      const rootElement = ReactDOM.createRoot(document.getElementById("root"));
+      rootElement.render(<App />);
+    </script>
+
+  </body>
+</html>
