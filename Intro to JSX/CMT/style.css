@@ -23,6 +23,11 @@
     padding-block: 5px;
     cursor: pointer;
   }
+
+  button, remove{
+    background-color: brown;
+    width: 1000px;
+  }
   
   th,
   td {
