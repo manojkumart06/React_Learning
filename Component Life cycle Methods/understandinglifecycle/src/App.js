@@ -1,15 +1,28 @@
-import React from "react";
-import ComponentA from "./componentA";
+import React, { Component } from "react";
+import ComponentA from './components/componentA'
+import ComponentB from './components/componentB'
+import ErrorBoundary from "./ErrorBoundary";
 
-class App extends React.Component {
+class App extends Component{
+    constructor(){
+        super();
+    }
 
-  render(){
-    return (
-      <>
-        <ComponentA />
-        <h1>Lifcycle</h1>
-      </>
-      );
+
+
+
+
+    render(){
+        return(
+            <>
+            <ErrorBoundary>
+            <ComponentA />
+            </ErrorBoundary>
+            <ErrorBoundary>
+            <ComponentB />
+            </ErrorBoundary>
+            </>
+        )
     }
 
 }

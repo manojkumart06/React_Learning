@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import ComponentB from "./componentB";
+// import ComponentB from "./componentB";
 
 class ComponentA extends React.Component{
 
@@ -12,14 +12,14 @@ class ComponentA extends React.Component{
         console.log("Inside the constructor");
     }
 
-    static getDerivedStateFromProps(){
-        console.log("Inside getDerviedStateFromProps")
-        return null;
-    }
+    // static getDerivedStateFromProps(){
+    //     console.log("Inside getDerviedStateFromProps")
+    //     return null;
+    // }
    
     componentDidMount(){
         console.log("Inside componentDidMount ")
-        fetch('https://jsonplaceholder.typicode.com/users/')
+        fetch('https://jsonplaceholder.typicode.com/user')
             .then(response => response.json())
             .then(data => this.setState({
                 list : data
@@ -35,12 +35,11 @@ class ComponentA extends React.Component{
         return (
             <>
             <p>{this.state.name}</p>
-            {list.map((list,index)=>(
+            {list.map((li,index)=>(
                 <ul key={index}>
-                    <li>{list.username}</li>
+                    <li>{li.username}</li>
                 </ul>
             ))}
-            <ComponentB />
             </>
         );
         }
