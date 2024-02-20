@@ -1,0 +1,48 @@
+.App {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, rgb(166, 0, 255), rgb(255, 0, 128));
+    width: 500px;
+    height: 300px;
+    margin-left: 35%;
+    border-radius: 5px;
+  }
+
+  hr{
+    color: white;
+    width: 80%;
+  }
+  h1{
+    margin-top: 20px;
+    color: rgb(39, 191, 15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .inputfname {
+     margin-bottom: 10px;
+    
+  }
+  .inputlname {
+    margin-bottom: 10px;
+   
+ }
+  
+  .Label {
+    font-size: 30px;
+    font-weight: 600;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    /* Adjust this as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+  
+  input {
+    width: 250px; /* Adjust this as needed */
+    padding: 5px; /* Adjust this as needed */
+  }
+  
