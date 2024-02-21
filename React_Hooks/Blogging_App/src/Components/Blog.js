@@ -1,4 +1,16 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useReducer } from "react";
+
+function blogReducer(state,action){
+    switch(action.type){
+        case "ADD" : 
+            return [action.blog, ...state]
+        case "REMOVE" :
+            return state.filter((blog,index) => index !== action.index)
+        default :
+            return [];
+    }
+}
+
 
 //Blogging App using Hooks
 export default function Blog(){
@@ -6,7 +18,9 @@ export default function Blog(){
     // const [title,setTitle] = useState("");
     // const [content,setContent] = useState("");
     const [formData,setFormData] = useState({title : "",content : ""})
-    const [blogs,setBlogs] = useState([]);
+    //const [blogs,setBlogs] = useState([]);
+    //using reducer instead of useState
+    const [blogs,dispatch] = useReducer(blogReducer,[]);
     const titleRef = useRef(null);
 
 
@@ -28,7 +42,9 @@ export default function Blog(){
         e.preventDefault();
 
         // setBlogs([{title,content},...blogs]);
-        setBlogs([{title : formData.title,content :formData.content}, ...blogs]);
+        //setBlogs([{title : formData.title,content :formData.content}, ...blogs]);
+        dispatch({type : "ADD",blog : {title : formData.title,content :formData.content}})
+
 
         //Empyting last typed on input fields
         // setTitle("");
@@ -39,7 +55,8 @@ export default function Blog(){
 
     const RemoveBlog = (i) => {
         //removes the particular blog with specific index
-        setBlogs(blogs.filter((blog,index)=> i!==index));
+        //setBlogs(blogs.filter((blog,index)=> i!==index));
+        dispatch({type : "REMOVE",index : i})
     }
 
 
