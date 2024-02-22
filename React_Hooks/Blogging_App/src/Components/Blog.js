@@ -1,4 +1,7 @@
 import { useState, useRef, useEffect, useReducer } from "react";
+import { db } from "../firebaseinit";
+import { collection, addDoc, doc, setDoc, getDocs, onSnapshot, deleteDoc } from "firebase/firestore"; 
+
 
 function blogReducer(state,action){
     switch(action.type){
@@ -6,6 +9,8 @@ function blogReducer(state,action){
             return [action.blog, ...state]
         case "REMOVE" :
             return state.filter((blog,index) => index !== action.index)
+        case "SET_INITIAL_BLOGS" :
+            return action.blogs
         default :
             return [];
     }
@@ -28,6 +33,35 @@ export default function Blog(){
         titleRef.current.focus();
     },[]);
 
+    //getting blogs from firebase
+    useEffect(() => {
+        // async function fetchData(){
+        //     const snapShot = await getDocs(collection(db,"Blogss"));
+        //     console.log(snapShot);
+
+        //     const blogs = snapShot.docs.map((blog) => {
+        //         return{
+        //             id : blog.id,
+        //             ...blog.data()
+        //         }
+        //     });
+        //     console.log(blogs);
+        //     dispatch({ type: "SET_INITIAL_BLOGS", blogs });
+        // }
+        // fetchData();
+
+        //realtime update use this always instead of getDocs 
+        const unSub = onSnapshot(collection(db,"Blogss"),(snapShot) => {
+            const blogs = snapShot.docs.map((blog) => {
+                        return{
+                            id : blog.id,
+                            ...blog.data()
+                        }
+                    });
+                    dispatch({ type: "SET_INITIAL_BLOGS", blogs });
+        })
+    },[]);
+
     useEffect(() => {
 
         if(blogs.length && blogs[0].title){
@@ -38,12 +72,32 @@ export default function Blog(){
     }, [blogs]);
     
     //Passing the synthetic event as argument to stop refreshing the page on submit
-    function handleSubmit(e){
+    async function handleSubmit(e){
         e.preventDefault();
 
         // setBlogs([{title,content},...blogs]);
         //setBlogs([{title : formData.title,content :formData.content}, ...blogs]);
-        dispatch({type : "ADD",blog : {title : formData.title,content :formData.content}})
+        //dispatch({type : "ADD",blog : {title : formData.title,content :formData.content}})
+
+        // Add a new document with a auto generated id.
+        // const docRef = await addDoc(collection(db, "Blogss"), {
+        //     Title : formData.title,
+        //     Content : formData.content,
+        //     CreatedAt : new Date()
+        // });
+        
+        //Adding a new doc with setDoc which creating new id or replace old one
+        const docRef = doc(collection(db, 'Blogss'));
+        await setDoc(docRef,{
+            title : formData.title,
+            content : formData.content,
+            CreatedAt : new Date()
+        });
+
+
+
+        console.log("Document written with ID: ", docRef.id);
+  
 
 
         //Empyting last typed on input fields
@@ -53,10 +107,14 @@ export default function Blog(){
         titleRef.current.focus();
     }
 
-    const RemoveBlog = (i) => {
+    const RemoveBlog = async(id) => {
         //removes the particular blog with specific index
         //setBlogs(blogs.filter((blog,index)=> i!==index));
-        dispatch({type : "REMOVE",index : i})
+
+        const deleteRef = doc(db,"Blogss",id);
+        await deleteDoc(deleteRef);
+
+        //dispatch({type : "REMOVE",index : id})
     }
 
 
@@ -110,7 +168,7 @@ export default function Blog(){
             <h3>{b.title}</h3>
             <p>{b.content}</p>
             <div className="blog-btn">
-                <button className="btn remove" onClick={() => RemoveBlog(index)}>Delete <img alt ="" src="https://cdn-icons-png.flaticon.com/128/1828/1828843.png"/></button>
+                <button className="btn remove" onClick={() => RemoveBlog(b.id)}>Delete <img alt ="" src="https://cdn-icons-png.flaticon.com/128/1828/1828843.png"/></button>
             </div>  
             </div>
         )}
