@@ -11,7 +11,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // import firebase methods here
-import { doc, collection, addDoc, setDoc, getDocs, onSnapshot, deleteDoc } from "firebase/firestore";
+import { doc, collection, addDoc, setDoc, getDocs, onSnapshot, deleteDoc,updateDoc } from "firebase/firestore";
 import { db } from "./Firebaseinit";
 
 const reducer = (state, action) => {
@@ -22,11 +22,11 @@ const reducer = (state, action) => {
         expenses: payload.expenses
       };
     }
-    // case "ADD_EXPENSE": {
-    //   return {
-    //     expenses: [payload.expense, ...state.expenses]
-    //   };
-    // }
+    case "ADD_EXPENSE": {
+      return {
+        expenses: [payload.expense, ...state.expenses]
+      };
+    }
     case "REMOVE_EXPENSE": {
       return {
         expenses: state.expenses.filter((expense) => expense.id !== payload.id)
@@ -58,7 +58,7 @@ function App() {
       }));
       dispatch({ type: "GET_EXPENSES", payload: { expenses } });
     }); 
-    toast.success("Expenses retrived successfully.");
+    //toast.success("Expenses retrived successfully.");
   };
 
   useEffect(() => {
@@ -98,9 +98,12 @@ function App() {
       return false;
     }
 
-    const expenseRef = doc(db, "expenses", expense.id);
-    await setDoc(expenseRef, expense);
+    // const expenseRef = doc(db, "expenses", expense.id);
+    // await setDoc(expenseRef, expense);
 
+    ///using updateDoc
+    const expenseRef = doc(db, "expenses", expense.id);
+    await updateDoc(expenseRef, expense);
     dispatch({ type: "UPDATE_EXPENSE", payload: { expensePos, expense } });
     toast.success("Expense updated successfully.");
   };
@@ -127,6 +130,7 @@ function App() {
       </div>
     </>
   );
+  
 }
 
 export default App;

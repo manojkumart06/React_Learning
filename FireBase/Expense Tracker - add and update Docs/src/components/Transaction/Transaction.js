@@ -30,7 +30,7 @@ const Transaction = ({
             currentHoverIndex === index && styles.movePrice
           }`}
         >
-          ${expense.amount}
+          &#x20B9;{expense.amount}
         </div>
         <div
           className={`${styles.btnContainer} ${
